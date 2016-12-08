@@ -1,1298 +1,803 @@
+
+<!DOCTYPE html>
+
 <html>
-<body>
-  <script src="http://d3js.org/d3.v3.min.js"  type="text/javascript" ></script>
-  <script src="http://d3js.org/topojson.v1.min.js"  type="text/javascript" ></script>
-  <!-- I recommend you host this file on your own, since this will change without warning -->
-  <script src="http://datamaps.github.io/scripts/datamaps.world.min.js"  type="text/javascript" ></script>
-  <h1>Known APT Groups and Operations Map</h1>
-  <h3>Just for fun and the lulz...</h3>
- 
-  <div id="container1"style="position: absolute; width: 90%; max-height: 500px; overflow: hidden;" ></div>
- 
-     
-     <script  type="text/javascript" >
-       //basic map config with custom fills, mercator projection
-      var map = new Datamap({
-        scope: 'world',
-        element: document.getElementById('container1'),
-	responsive: true,
-        projection: 'mercator',
- 
-geographyConfig: {
-    popupOnHover: false,
-    highlightOnHover: false
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>DataMaps</title>
+        <meta name="description" content="A jQuery plugin for geographical map data visualizations using d3.js, SVG.">
+        <meta name="google-site-verification" content="zLCvhju2XBR2bPX9KvLIcnYTcsyjWuEeBda0JfQz7ww" />
+        <meta name="viewport" content="width=device-width">
+
+      <link rel="stylesheet" href="/styles/bootstrap.min.css">
+      <link rel="stylesheet" href="/styles/bootstrap-responsive.min.css">
+      <style>
+        .page-header p { overflow: hidden; }
+        .page-header p a { width: 200px; text-align: center;}
+        .code { height: 500px; overflow: scroll; zoom: .84;}
+        * { font-family: "source-sans-pro";}
+        .heading { font-size: 180px; line-height: 200px;}
+        .head, .examples, .docs { text-align: center; }
+        code,pre, pre span { text-align: left; font-family: monospace; font-weight: normal; font-size: medium; }
+        .head ul { list-style-type: none;}
+        .map { position: relative; margin: 0 auto; width: 750px; height: 500px;}
+        .tall { height: 750px; width: 550px; }
+        .examples h3 { margin-bottom: 0; }
+        .options { position: relative; overflow:hidden; max-height: 21px; -webkit-transition: max-height 250ms ease-in; transition: max-height 250ms ease-in; -moz-transition: max-height 250ms ease-in; }
+        .options pre { margin-top: 10px; }
+        .options:hover { background-color: #DDD; cursor: pointer; }
+        .options pre:hover { cursor: default;}
+        .open { max-height: 5000px !important; }
+        .options:after {content: "(Click to toggle code) ↓"; color: #666; float: right; position: absolute; right: 10px; top: 10px; }
+        #footer { padding: 10px 0; text-align: center; }
+        sup.new { color: red; }
+        @media (max-width: 980px) {
+          .heading {font-size: 40px; line-height: 40px; margin-top: 50px; }
+          .options { max-height: 45px; }
+          .options pre { margin-top: 35px; }
+          .options:after { content: "↓"; top: 40px; }
+          .map { width: 100%; height: 300px;}
+        }
+      </style>
+    </head>
+    <body class="tk-source-sans-pro">
+    <script src="/scripts/d3.min.js"></script>
+    <script src="/scripts/topojson.js"></script>
+    <script src="/scripts/0.5.8/datamaps.all.js"></script>
+    <script type="text/javascript" src="//use.typekit.net/vzv8gnr.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    <div class="container">
+      <section class="head">
+        <h1 class="heading">DataMaps</h1>
+        <p class="lead">Customizable SVG map visualizations for the web in a single Javascript file using D3.js</p>
+        <p class="lead"><a href="/hi-res.html">Now available in Hi-Resolution formats for large displays!</a></p>
+        <hr />
+        <div class="row">
+          <ul class="span4">
+              <li>
+                Downloads
+              </li>
+              <li>
+                  <a target="_blank" href="https://raw.githubusercontent.com/markmarkoh/datamaps/master/dist/datamaps.world.min.js">World (38KB gzip)</a>
+              </li>
+              <li>
+                  <a target="_blank" href="https://raw.githubusercontent.com/markmarkoh/datamaps/master/dist/datamaps.world.hires.min.js">World Hi-Res (141KB gzip)</a>
+                  <sup class="new">New!</sup>
+              </li>
+              <li>
+                  <a target="_blank" href="https://raw.githubusercontent.com/markmarkoh/datamaps/master/dist/datamaps.usa.min.js">USA only (15KB gzip)</a>
+              </li>
+              <li>
+                  <a href="https://github.com/markmarkoh/datamaps/tree/master/dist">More versions</a>
+              </li>
+          </ul>
+          <ul class="span4">
+            <li>
+              Documentation
+            </li>
+            <li>
+                <a href="https://github.com/markmarkoh/datamaps/blob/master/README.md#getting-started">Getting started</a>
+            </li>
+            <li>
+                <a href="https://github.com/markmarkoh/datamaps/blob/master/README.md#using-custom-maps">Custom map data</a>
+            <li>
+              <br/>
+              <iframe src="http://ghbtns.com/github-btn.html?user=markmarkoh&repo=datamaps&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="100px" height="20"></iframe>
+            </li>
+          </ul>
+          <ul class="span4">
+            <li>
+              See Datamaps on
+            </li>
+            <li>
+              <a target="_blank" href="http://data.runkeeper.com/rk-usa-running-stats-by-state">In the USA, Who Runs the Fastest, the Farthest [...]</a>
+              <sup class="new">New!</sup>
+            <li>
+            <li>
+              <a target="_blank" href="http://www.ourworldindata.org/data/population-growth-vital-statistics/infant-mortality/#world-maps-of-infant-mortality-from-1830-to-2010-max-roserref">Our World In Data</a>
+            <li>
+              <a target="_blank" href="http://rmaps.github.io/blog/posts/animated-choropleths/">Animated Choropleths with R</a>
+            </li>
+            <li>
+                <a target="_blank" href="http://www.businessweek.com/articles/2013-11-14/2014-outlook-world-economic-growth-map">The Wide World of Economic Growth</a>
+            </li>
+            <li>
+                <a target="_blank" href="http://hatnote.com/#en">Realtime Wikipedia Updates</a>
+            </li>
+        </ul>
+        </div>
+        <div class="row">
+          <ul class="span4">
+            <li>Latest How-to's and Guides</li>
+            <li>
+              <a href="http://jsbin.com/nutawiboci/1/edit">Try it in your browser</a>
+            </li>
+            <li>
+              <a href="https://web.archive.org/web/20150625160038/http://datamaps.markmarkoh.com/custom-fill-patterns-for-datamaps/">Creating custom map data</a>
+            </li>
+            <li>
+                <a href="https://web.archive.org/web/20150625160051/http://datamaps.markmarkoh.com/creating-a-datamaps-plugin/">Creating a plugin</a>
+            </li>
+            <li>
+              <a href="https://web.archive.org/web/20150625160038/http://datamaps.markmarkoh.com/">All Guides</a>
+            </li>
+          </ul>
+          <ul class="offset4 span4">
+            <li>Need help?</li>
+            <li>
+              <a href="http://datamaps.markmarkoh.com/">All Guides</a>
+            </li>
+            <li>
+              <a href="https://github.com/markmarkoh/datamaps/issues/new">Open an issue</a>
+            </li>
+	    <li>
+	      <a href="https://gitter.im/markmarkoh/datamaps?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"><img alt="Join the chat at https://gitter.im/markmarkoh/datamaps" src="https://badges.gitter.im/markmarkoh/datamaps.svg"/></a>
+            </li>
+            <li style="margin-top:5px">
+<a href="https://twitter.com/intent/tweet?screen_name=markmarkoh" class="twitter-mention-button" data-related="markmarkoh">Tweet to @markmarkoh</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+            </li>
+          </ul>
+        </div>
+        <hr />
+      </section>
+      <section class="examples">
+        <h2>Changelog</h2>
+        <article>
+          <h4><a href="https://github.com/markmarkoh/datamaps/releases/tag/v0.5.0">v0.5.0</a>: High resolution maps now available</h4>
+          <h4><a href="https://github.com/markmarkoh/datamaps/releases/tag/v0.4.4">v0.4.4</a>: <code>updateChoropleth</code> now accepts a reset option parameter</h4>
+          <h4><a href="https://github.com/markmarkoh/datamaps/releases/tag/v0.4.0">v0.4.0</a>: Allows functions instead of literal values, many bug fixes</h4>
+          <h4><a href="https://github.com/markmarkoh/datamaps/releases/tag/v0.2.10">v0.2.10</a>: Allows `height`/`width` as option parameters, fixes IE mouseover issue</h4>
+          <h4><a href="https://github.com/markmarkoh/datamaps/releases/tag/v0.2.7">v0.2.7</a>: Added <code>dataUrl</code> to remote fetch JSON or CSV data </h4>
+        </article>
+      </section>
+      <hr/>
+      <section class="examples">
+        <h2>Examples</h2>
+        <article>
+          <h3>Basic:</h3>
+          <div class="well well-small options"><span>Options:</span> All default options.</div>
+          <div class="map" id="basic"></div>
+          <script data-info="Map source for basic example">
+var basic = new Datamap({
+  element: document.getElementById("basic")
+});
+          </script>
+        </article>
+        <article>
+          <h3>Choropleth:</h3>
+          <div class="well well-small options"><span>Options:</span> Mercator projection, custom country fill color data, and <code>updateChoropleth()</code></div>
+          <div class="map" id="basic_choropleth"></div>
+          <script data-info="Map source for basic choropleth">
+var basic_choropleth = new Datamap({
+  element: document.getElementById("basic_choropleth"),
+  projection: 'mercator',
+  fills: {
+    defaultFill: "#ABDDA4",
+    authorHasTraveledTo: "#fa0fa0"
+  },
+  data: {
+    USA: { fillKey: "authorHasTraveledTo" },
+    JPN: { fillKey: "authorHasTraveledTo" },
+    ITA: { fillKey: "authorHasTraveledTo" },
+    CRI: { fillKey: "authorHasTraveledTo" },
+    KOR: { fillKey: "authorHasTraveledTo" },
+    DEU: { fillKey: "authorHasTraveledTo" },
+  }
+});
+
+var colors = d3.scale.category10();
+
+window.setInterval(function() {
+  basic_choropleth.updateChoropleth({
+    USA: colors(Math.random() * 10),
+    RUS: colors(Math.random() * 100),
+    AUS: { fillKey: 'authorHasTraveledTo' },
+    BRA: colors(Math.random() * 50),
+    CAN: colors(Math.random() * 50),
+    ZAF: colors(Math.random() * 50),
+    IND: colors(Math.random() * 50),
+  });
+}, 2000);
+          </script>
+        </article>
+        <article>
+          <h3>State Labels:</h3>
+          <div class="well well-small options"><span>Options:</span> USA projection, state labels plugin (USA map only), custom country fill color data</div>
+          <div class="map" id="map_election"></div>
+          <script data-info="Map source for US Election map and labels plugin">
+var election = new Datamap({
+  scope: 'usa',
+  element: document.getElementById('map_election'),
+  geographyConfig: {
+    highlightBorderColor: '#bada55',
+   popupTemplate: function(geography, data) {
+      return '<div class="hoverinfo"><strong>' + geography.properties.name + '</strong> <br />Electoral Votes:' +  data.electoralVotes + ' </div>'
+    },
+    highlightBorderWidth: 3
   },
 
   fills: {
+  'Republican': '#CC4731',
+  'Democrat': '#306596',
+  'Heavy Democrat': '#667FAF',
+  'Light Democrat': '#A9C0DE',
+  'Heavy Republican': '#CA5E5B',
+  'Light Republican': '#EAA9A8',
+  defaultFill: '#EDDC4E'
+},
+data:{
+  "AZ": {
+      "fillKey": "Republican",
+      "electoralVotes": 5
+  },
+  "CO": {
+      "fillKey": "Light Democrat",
+      "electoralVotes": 5
+  },
+  "DE": {
+      "fillKey": "Democrat",
+      "electoralVotes": 32
+  },
+  "FL": {
+      "fillKey": "UNDECIDED",
+      "electoralVotes": 29
+  },
+  "GA": {
+      "fillKey": "Republican",
+      "electoralVotes": 32
+  },
+  "HI": {
+      "fillKey": "Democrat",
+      "electoralVotes": 32
+  },
+  "ID": {
+      "fillKey": "Republican",
+      "electoralVotes": 32
+  },
+  "IL": {
+      "fillKey": "Democrat",
+      "electoralVotes": 32
+  },
+  "IN": {
+      "fillKey": "Republican",
+      "electoralVotes": 11
+  },
+  "IA": {
+      "fillKey": "Light Democrat",
+      "electoralVotes": 11
+  },
+  "KS": {
+      "fillKey": "Republican",
+      "electoralVotes": 32
+  },
+  "KY": {
+      "fillKey": "Republican",
+      "electoralVotes": 32
+  },
+  "LA": {
+      "fillKey": "Republican",
+      "electoralVotes": 32
+  },
+  "MD": {
+      "fillKey": "Democrat",
+      "electoralVotes": 32
+  },
+  "ME": {
+      "fillKey": "Democrat",
+      "electoralVotes": 32
+  },
+  "MA": {
+      "fillKey": "Democrat",
+      "electoralVotes": 32
+  },
+  "MN": {
+      "fillKey": "Democrat",
+      "electoralVotes": 32
+  },
+  "MI": {
+      "fillKey": "Democrat",
+      "electoralVotes": 32
+  },
+  "MS": {
+      "fillKey": "Republican",
+      "electoralVotes": 32
+  },
+  "MO": {
+      "fillKey": "Republican",
+      "electoralVotes": 13
+  },
+  "MT": {
+      "fillKey": "Republican",
+      "electoralVotes": 32
+  },
+  "NC": {
+      "fillKey": "Light Republican",
+      "electoralVotes": 32
+  },
+  "NE": {
+      "fillKey": "Republican",
+      "electoralVotes": 32
+  },
+  "NV": {
+      "fillKey": "Heavy Democrat",
+      "electoralVotes": 32
+  },
+  "NH": {
+      "fillKey": "Light Democrat",
+      "electoralVotes": 32
+  },
+  "NJ": {
+      "fillKey": "Democrat",
+      "electoralVotes": 32
+  },
+  "NY": {
+      "fillKey": "Democrat",
+      "electoralVotes": 32
+  },
+  "ND": {
+      "fillKey": "Republican",
+      "electoralVotes": 32
+  },
+  "NM": {
+      "fillKey": "Democrat",
+      "electoralVotes": 32
+  },
+  "OH": {
+      "fillKey": "UNDECIDED",
+      "electoralVotes": 32
+  },
+  "OK": {
+      "fillKey": "Republican",
+      "electoralVotes": 32
+  },
+  "OR": {
+      "fillKey": "Democrat",
+      "electoralVotes": 32
+  },
+  "PA": {
+      "fillKey": "Democrat",
+      "electoralVotes": 32
+  },
+  "RI": {
+      "fillKey": "Democrat",
+      "electoralVotes": 32
+  },
+  "SC": {
+      "fillKey": "Republican",
+      "electoralVotes": 32
+  },
+  "SD": {
+      "fillKey": "Republican",
+      "electoralVotes": 32
+  },
+  "TN": {
+      "fillKey": "Republican",
+      "electoralVotes": 32
+  },
+  "TX": {
+      "fillKey": "Republican",
+      "electoralVotes": 32
+  },
+  "UT": {
+      "fillKey": "Republican",
+      "electoralVotes": 32
+  },
+  "WI": {
+      "fillKey": "Democrat",
+      "electoralVotes": 32
+  },
+  "VA": {
+      "fillKey": "Light Democrat",
+      "electoralVotes": 32
+  },
+  "VT": {
+      "fillKey": "Democrat",
+      "electoralVotes": 32
+  },
+  "WA": {
+      "fillKey": "Democrat",
+      "electoralVotes": 32
+  },
+  "WV": {
+      "fillKey": "Republican",
+      "electoralVotes": 32
+  },
+  "WY": {
+      "fillKey": "Republican",
+      "electoralVotes": 32
+  },
+  "CA": {
+      "fillKey": "Democrat",
+      "electoralVotes": 32
+  },
+  "CT": {
+      "fillKey": "Democrat",
+      "electoralVotes": 32
+  },
+  "AK": {
+      "fillKey": "Republican",
+      "electoralVotes": 32
+  },
+  "AR": {
+      "fillKey": "Republican",
+      "electoralVotes": 32
+  },
+  "AL": {
+      "fillKey": "Republican",
+      "electoralVotes": 32
+  }
+}
+});
+election.labels();
+          </script>
+        </article>
+        <article>
+          <h3>Bubbles:</h3>
+          <div class="well well-small options"><span>Options:</span> Bubble plugin with custom hoverover template, disabled map hoverover.</div>
+          <div class="map" id="bubbles"></div>
+          <script data-info="Map source for bubbles example">
+var bubble_map = new Datamap({
+  element: document.getElementById("bubbles"),
+  geographyConfig: {
+    popupOnHover: false,
+    highlightOnHover: false
+  },
+  fills: {
+    defaultFill: '#ABDDA4',
+    USA: 'blue',
+    RUS: 'red'
+  }
+});
+bubble_map.bubbles([
+  {
+    name: 'Not a bomb, but centered on Brazil',
+    radius: 23,
+    centered: 'BRA',
+    country: 'USA',
+    yeild: 0,
+    fillKey: 'USA',
+    date: '1954-03-01'
+  },
+  {
+    name: 'Not a bomb',
+    radius: 15,
+    yeild: 0,
+    country: 'USA',
+    centered: 'USA',
+    date: '1986-06-05',
+    significance: 'Centered on US',
+    fillKey: 'USA'
+  },
+  {
+    name: 'Castle Bravo',
+    radius: 25,
+    yeild: 15000,
+    country: 'USA',
+    significance: 'First dry fusion fuel "staged" thermonuclear weapon; a serious nuclear fallout accident occurred',
+    fillKey: 'USA',
+    date: '1954-03-01',
+    latitude: 11.415,
+    longitude: 165.1619
+  },{
+    name: 'Tsar Bomba',
+    radius: 70,
+    yeild: 50000,
+    country: 'USSR',
+    fillKey: 'RUS',
+    significance: 'Largest thermonuclear weapon ever tested—scaled down from its initial 100 Mt design by 50%',
+    date: '1961-10-31',
+    latitude: 73.482,
+    longitude: 54.5854
+  }
+], {
+  popupTemplate: function(geo, data) {
+    return '<div class="hoverinfo"><strong>Yield:</strong>' + data.yeild + '<br/>Exploded on ' + data.date + ' by the '  + data.country + '</div>'
+  }
+});
+          </script>
+        </article>
+        <article>
+          <h3>Arcs:</h3>
+          <div class="well well-small options"><span>Options:</span> USA projection, custom country fill color data, arcs plugin.</div>
+          <div class="map" id="arcs"></div>
+          <script data-info="Map source for arcs example">
+var arcs = new Datamap({
+  element: document.getElementById("arcs"),
+  scope: 'usa',
+  fills: {
     defaultFill: "#ABDDA4",
-    redz: "#f4494c",
-    blu: "#0e93b5"
+    win: '#0fa0fa'
   },
   data: {
-    PRK: { fillKey: "redz" },
-    USA: { fillKey: "redz" },
-    LBN: { fillKey: "redz" },
-    RUS: { fillKey: "redz" },
-    CHN: { fillKey: "redz" },
-    IRN: { fillKey: "redz" },
-    ISR: { fillKey: "redz" },
-    SYR: { fillKey: "redz" },
-    PSE: { fillKey: "redz" },
-    FRA: { fillKey: "redz" },
-
+    'TX': { fillKey: 'win' },
+    'FL': { fillKey: 'win' },
+    'NC': { fillKey: 'win' },
+    'CA': { fillKey: 'win' },
+    'NY': { fillKey: 'win' },
+    'CO': { fillKey: 'win' }
   }
-});   
-	// Pure JavaScript
-    	window.addEventListener('resize', function() {
-        map.resize();
-   	});
-      
-       //bubbles, custom popup on hover template
-     map.bubbles([
+});
 
-   {  
-      "latitude":34.4,
-      "longitude":104.19,
-      "radius":5,
-      fillkey:'blu',
-      "name":"Comment Crew",
-      "operations":"Shady RAT",
-      "tools":"WEBC2, BISCUIT and many others",
-      "targets":"Mainly EN speaking countries",
-      "modulus_operandi":" IT/Software companies"
-   },
-   {  
-      "latitude":31,
-      "longitude":86,
-      "radius":5,
-      "fillKey": "blue",
-      "name":"APT 2",
-      "operations":"",
-      "tools":"MSUpdater",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":30,
-      "longitude":114,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"UPS",
-      "operations":"Clandestine Fox , Double Tap, Clandestine Wolf",
-      "tools":"Pirpi, PlugX, Kaba, Cookie Cutter, many 0days: IE, Firefox, and Flash, SportLoader",
-      "targets":"Aerospace and Defence",
-      "modulus_operandi":" Construction and Engineering"
-   },
-   {  
-      "latitude":30,
-      "longitude":103,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"IXESHE",
-      "operations":"NYT Oct 2012",
-      "tools":"Etumbot, Riptide, Hightide, ThreeByte, Waterspout, Mswab, Gh0st, ShowNews, 3001",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":38,
-      "longitude":91,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"APT 16",
-      "operations":"",
-      "tools":"ELMER backdoor",
-      "targets":"Taiwanese Media and Entertainment",
-      "modulus_operandi":"Spear phishing email delivering a malicious Microsoft Word document exploiting EPS dict copy use-after-free vulnerability, and the local Windows privilege escalation vulnerability CVE-2015-1701. The successful exploitation of both vulnerabilities led to the delivery of either a downloader (IRONHALO), or a backdoor (ELMER)."
-   },
-   {  
-      "latitude":39,
-      "longitude":93,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Hidden Lynx",
-      "operations":"Operation Ephemeral Hydra",
-      "tools":"BLACKCOFFEE, WEBCnC, Joy RAT, PlugX, Trojan.Naid, Backdoor.Moudoor, Backdoor.Vasport, Backdoor.Boda, Trojan.Hydraq, ZxShell, Sakula, China Chopper",
-      "targets":"Government, defense & aerospace, industrial engineering, NGOs",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":33,
-      "longitude":104,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Wekby",
-      "operations":"",
-      "tools":"HTTPBrowser, TokenControl, HcdLoader, PisLoader",
-      "targets":"Aerospace and Defence",
-      "modulus_operandi":" Construction and Engineering"
-   },
-   {  
-      "latitude":31,
-      "longitude":85,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Axiom",
-      "operations":"Operation SMN",
-      "tools":"Winnti, Gh0st RAT, PoisonIvy, HydraQ, Hikit, ZxShell, Deputy Dog, Derusbi, PlugX, HTRAN, HDRoot",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":33,
-      "longitude":85,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Shell Crew",
-      "operations":"Anthem, OPM",
-      "tools":"Sakula/Sakurel, Derusbi, Scanbox Framework, many Webshells including China Chopper, WCE",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":32,
-      "longitude":91,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Naikon",
-      "operations":"MsnMM, Naikon, Camera Shy",
-      "tools":"RARSTONE, BACKSPACe, NETEAGLE, XSControl",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":32,
-      "longitude":88,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Lotus Blossom",
-      "operations":"Operation Lotus Blossom",
-      "tools":"Elise Backdoor, Lstudio",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":40,
-      "longitude":112,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"APT 6",
-      "operations":"",
-      "tools":"Poison Ivy, ",
-      "targets":"US Government Organizations",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":32,
-      "longitude":99,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Hurricane Panda",
-      "operations":"Umbrella Revolution, Op. Poisoned Hurricane",
-      "tools":"China Chopper Webshell, PlugX, Mimikatz",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":35,
-      "longitude":99,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Emissary Panda",
-      "operations":"Operaton Iron Tiger, A Tale of Two Targets",
-      "tools":"",
-      "targets":"PlugX, China Chopper Webshell, HttpBrowser, Hunter, ASPXTool, wce, gsecdump, nbtscan, Trochilus RAT",
-      "modulus_operandi":"US Gov and contractors"
-   },
-   {  
-      "latitude":30,
-      "longitude":90,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Stone Panda",
-      "operations":"",
-      "tools":"Poison Ivy, EvilGrab, IEChecker",
-      "targets":"Healthcare, Defense, Aerospace, Government",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":36,
-      "longitude":112,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Nightshade Panda",
-      "operations":"",
-      "tools":"Poison Ivy, PlugX",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":38,
-      "longitude":88,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Nokian",
-      "operations":"",
-      "tools":"",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":29,
-      "longitude":109,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"APT 26",
-      "operations":"",
-      "tools":"",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":33,
-      "longitude":100,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Hellsing",
-      "operations":"",
-      "tools":"",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":31,
-      "longitude":92,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Goblin Panda",
-      "operations":"",
-      "tools":"ZeGhost, PlugX",
-      "targets":"Southeast Asia, Government of Vietnam",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":36,
-      "longitude":92,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Night Dragon",
-      "operations":"Operation Night Dragon",
-      "tools":"",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":30,
-      "longitude":111,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Mirage",
-      "operations":"Umbrella Revolution",
-      "tools":"Mirage, (Nvidia program side-loading) PlugX, XSLCmd, TidePool",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":39,
-      "longitude":108,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Anchor Panda",
-      "operations":"",
-      "tools":"Adobe Gh0st, Poison Ivy, Torn RAT",
-      "targets":"maritime satellite systems, aerospace companies, and defense contractors",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":36,
-      "longitude":97,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"NetTraveler",
-      "operations":"",
-      "tools":"NetTraveler",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":34,
-      "longitude":97,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Ice Fog",
-      "operations":"",
-      "tools":"",
-      "targets":"military, shipbuilding and maritime operations, research companies, telecomoperators, satellite operators, mass media and television",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":33,
-      "longitude":112,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Beijing Group",
-      "operations":"Operation Aurora",
-      "tools":"Hydraq, Elderwood Project",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":33,
-      "longitude":94,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"APT 22",
-      "operations":"",
-      "tools":"China Chopper",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":40,
-      "longitude":100,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Suckfly",
-      "operations":"",
-      "tools":"Nidiran, Korplug, PlugX",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":35,
-      "longitude":96,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"?",
-      "operations":"Four Element Sword",
-      "tools":"UP007, SLServer, Grabber, T9000, Kivars, PlugX, Gh0StRAT, Agent.XST",
-      "targets":"Tibetans, Hong Kong, Taiwanese interests and human rights workers, Uyghur Interests",
-      "modulus_operandi":"Active"
-   },
-   {  
-      "latitude":38,
-      "longitude":105,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"?",
-      "operations":"INOCNATION",
-      "tools":"",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":40,
-      "longitude":92,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Pirate Panda",
-      "operations":"",
-      "tools":"",
-      "targets":"",
-      "modulus_operandi":"Southeast Asia"
-   },
-   {  
-      "latitude":35,
-      "longitude":101,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Radio Panda",
-      "operations":"",
-      "tools":"",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":32,
-      "longitude":98,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"APT 4",
-      "operations":"",
-      "tools":"",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":37,
-      "longitude":112,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Impersonating Panda",
-      "operations":"",
-      "tools":"",
-      "targets":"Financial sector",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":37,
-      "longitude":98,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Violin Panda",
-      "operations":"Nitro Attacks",
-      "tools":"Poison Ivy",
-      "targets":"Energy, Chemical Industry",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":34,
-      "longitude":99,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Toxic Panda",
-      "operations":"",
-      "tools":"",
-      "targets":"Dissident Groups",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":39,
-      "longitude":89,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Temper Panda",
-      "operations":"Umbrella Revolution",
-      "tools":"Poison Ivy, jRat, LOWBALL, BUBBLEWRAP",
-      "targets":"Target Gov + Military, DIB, Finiancial/Think Tanks",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":37,
-      "longitude":88,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Keyhole Panda",
-      "operations":"",
-      "tools":"",
-      "targets":"Electronics & Communications",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":31,
-      "longitude":86,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Test Panda",
-      "operations":"",
-      "tools":"",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":39,
-      "longitude":95,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Pitty Tiger",
-      "operations":"",
-      "tools":"PittyTiger, Paladin RAT",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":31,
-      "longitude":115,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Gibberish Panda",
-      "operations":"",
-      "tools":"",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":39,
-      "longitude":103,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Foxy Panda",
-      "operations":"",
-      "tools":"",
-      "targets":"Technology & Communications",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":36,
-      "longitude":109,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Wet Panda",
-      "operations":"",
-      "tools":"PlugX",
-      "targets":"Energy ",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":39,
-      "longitude":86,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Union Panda",
-      "operations":"",
-      "tools":"",
-      "targets":"Industrial companies",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":34,
-      "longitude":112,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Karma Panda",
-      "operations":"",
-      "tools":"",
-      "targets":"Dissident groups",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":28,
-      "longitude":99,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Poisonous Panda",
-      "operations":"",
-      "tools":"",
-      "targets":"Energy technology, G20, NGOs, Dissident Groups",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":33,
-      "longitude":107,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Predator Panda",
-      "operations":"",
-      "tools":"PlugX",
-      "targets":"Southeast Asia",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":38,
-      "longitude":105,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"?",
-      "operations":"Poisoned Helmand",
-      "tools":"",
-      "targets":"Afghan Government",
-      "modulus_operandi":"Watering Hole"
-   },
-   {  
-      "latitude":39,
-      "longitude":110,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"?",
-      "operations":"Titan Rain",
-      "tools":"",
-      "targets":"USA",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":40,
-      "longitude":104,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"?",
-      "operations":"Sykipot, Getkys, Wyksol",
-      "tools":"",
-      "targets":"DIB (Defence Industrial Base) and other government organizations",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":40,
-      "longitude":100,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Scarlet Mimic",
-      "operations":"",
-      "tools":"FakeM, Psylo, MobileOrder",
-      "targets":"Uyghur and Tibetan activists as well as those who are interested in their causes",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":40,
-      "longitude":105,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"C0d0so",
-      "operations":"Bassos Campaign",
-      "tools":"Bergard Trojan, Derusbi",
-      "targets":"Forbes,  Defense, Finance, Energy, Government, Political Dissidents, Global Think Tanks",
-      "modulus_operandi":"Watering Hole"
-   },
-   {  
-      "latitude":38,
-      "longitude":93,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"SVCMONDR",
-      "operations":"",
-      "tools":"CVE-2015-2545",
-      "targets":"Taiwan, Thailand",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":30,
-      "longitude":104,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Big Panda",
-      "operations":"",
-      "tools":"",
-      "targets":"Financial services firms",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":38,
-      "longitude":85,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Electric Panda",
-      "operations":"",
-      "tools":"",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":32,
-      "longitude":87,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Eloquent Panda",
-      "operations":"",
-      "tools":"",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":29,
-      "longitude":105,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Lotus Panda",
-      "operations":"",
-      "tools":"",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":37,
-      "longitude":92,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Pale Panda",
-      "operations":"",
-      "tools":"PlugX",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":30,
-      "longitude":111,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Sabre Panda",
-      "operations":"",
-      "tools":"",
-      "targets":"Umbrella Revolution",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":31,
-      "longitude":108,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Spicy Panda",
-      "operations":"",
-      "tools":"",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":30,
-      "longitude":96,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Hammer Panda",
-      "operations":"",
-      "tools":"",
-      "targets":"Russia",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":40,
-      "longitude":104,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Wisp Team",
-      "operations":"",
-      "tools":"",
-      "targets":"Defense Industrial Base, US Government",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":31,
-      "longitude":114,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Mana Team",
-      "operations":"",
-      "tools":"",
-      "targets":"Australia",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":32,
-      "longitude":103,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Dust Storm",
-      "operations":"",
-      "tools":"",
-      "targets":"Japan",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":33,
-      "longitude":85,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"TEMP.Zhenbao",
-      "operations":"",
-      "tools":"",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":31,
-      "longitude":106,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"SPIVY",
-      "operations":"",
-      "tools":"",
-      "targets":"Hong Kong dissidents",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":29,
-      "longitude":91,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Mofang",
-      "operations":"",
-      "tools":"ShimRAT, ShimRATReporter",
-      "targets":"Government, military, Critical Infrastructure,Automotive Industry*,Weapon Industry*",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":37,
-      "longitude":95,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"PassCV",
-      "operations":"",
-      "tools":"Sabre, Kitkiot",
-      "targets":"Gaming Companies",
-      "modulus_operandi":""
-   },
-  
-   {  
-      "latitude":60,
-      "longitude":49,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Sofacy",
-      "operations":"Operation Russian Doll, Bundestag, TV5 Monde \"Cyber Caliphate\", EFF Attack, DNC Hack, OpOlympics",
-      "tools":"CHOPSTICK, CORESHELL, Winexe, SOURFACE, OLDBAIT, Sofacy, XAgent, XTunnel, WinIDS, Foozer, DownRange, Sedreco Dropper, Komplex, DealersChoice, Downdelph, Sednit, USBStealer, Sedkit, HideDrv (Rootkit)",
-      "targets":"United States government",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":55,
-      "longitude":44,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"APT 29",
-      "operations":"",
-      "tools":"Hammertoss, OnionDuke, CosmicDuke, MinDuke, CozyDuke, SeaDuke, SeaDaddy implant developed in Python and compiled with py2exe, AdobeARM, ATI-Agent, MiniDionis",
-      "targets":"US businesses",
-      "modulus_operandi":"phishing emails"
-   },
-   {  
-      "latitude":56,
-      "longitude":46,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Turla Group ",
-      "operations":"Satellite Turla, Epic Turla, The 'Penquin' Turla, Operation Witchcoven",
-      "tools":"Uroburos, Turla, Agent.BTZ, Tavdig, Wipbot, Agent.dne, AdobeARM, ATI-Agent, MiniDionis",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":55,
-      "longitude":44,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Energetic Bear",
-      "operations":"",
-      "tools":"Havex RAT, Oldrea, LightsOut ExploitKit",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":54,
-      "longitude":49,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Sandworm",
-      "operations":"Black Energy",
-      "tools":"CVE-2014-4114",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":59,
-      "longitude":38,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Anunak",
-      "operations":"Odinaff",
-      "tools":"Mimikatz, MBR Eraser, SoftPerfect Network Scanner, SSHd with BackDoor, Ammy Admin, CVE-2012-2539 and CVE-2012-0158, Netscan, PsExec, Backdoor Batel",
-      "targets":"Banks of Russia and payment system",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":57,
-      "longitude":37,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"???",
-      "operations":"Red October, Cloud Atlas",
-      "tools":"",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":60,
-      "longitude":43,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"TeamSpy Crew",
-      "operations":"TeamSpy",
-      "tools":"",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":56,
-      "longitude":38,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"BuhTrap",
-      "operations":"",
-      "tools":"AmmyAdmin, LURK, NSIS, Mimikatz, CVE-2012-0158, PuntoSwitcher (like Keylogger)",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":57,
-      "longitude":40,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Carberb",
-      "operations":"Moonlight Maze",
-      "tools":"",
-      "targets":"USA",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":53,
-      "longitude":50,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Anger Bear",
-      "operations":"",
-      "tools":"",
-      "targets":"Middle East oil and natural gas as the goal, dedicated to gather relevant information",
-      "modulus_operandi":"Active"
-   },
-   {  
-      "latitude":57,
-      "longitude":43,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"???",
-      "operations":"RUAG Espionage",
-      "tools":"Turla Family, Uroburos, Snake (Carbon) Rootkit, Tavdig/Wipbot/Epic, Mimikatz, dsquery, dsget",
-      "targets":"Swiss defence department",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":58,
-      "longitude":48,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"FSB 16th & 18th Centers",
-      "operations":"OP Armageddon",
-      "tools":"",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":54,
-      "longitude":36,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"ScarCruft",
-      "operations":"Operation Daybreak, Operation Erebus",
-      "tools":"Flash Exploit CVE-2016-4117",
-      "targets":"Russia, Nepal, South Korea, China, India, Kuwait and Romania",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":54,
-      "longitude":51,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Cyber Berkut",
-      "operations":"",
-      "tools":"",
-      "targets":"Bellingcat",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":55,
-      "longitude":43,
-      "radius":null,
-      "fillkey":"",
-      "name":"",
-      "operations":"",
-      "tools":"",
-      "targets":"",
-      "modulus_operandi":""
-   },
- 
-   {  
-      "latitude":31,
-      "longitude":53,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Flying Kitten",
-      "operations":"Aramco Shamoon",
-      "tools":"",
-      "targets":"Iranian dissidents, activists, Saudi Aramco",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":33,
-      "longitude":56,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Charming Kitten",
-      "operations":"",
-      "tools":"",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":33,
-      "longitude":54,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Magic Kitten",
-      "operations":"",
-      "tools":"",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":35,
-      "longitude":51,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Rocket Kitten",
-      "operations":"Operation Woolen Goldfish, Thamar Reservoir ",
-      "tools":"GHOLE / Core Impact",
-      "targets":" CWoolger",
-      "modulus_operandi":" FireMalv"
-   },
-   {  
-      "latitude":35,
-      "longitude":56,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Threat Group 2889",
-      "operations":"Operation Cleaver",
-      "tools":"TinyZBot",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":33,
-      "longitude":54,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Clever Kitten",
-      "operations":"",
-      "tools":"Acunetix Web Vulnerability Scanner, PHP Webshell RC SHELL",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":33,
-      "longitude":54,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Fraternal Jackal",
-      "operations":"",
-      "tools":"",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":33,
-      "longitude":55,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"???",
-      "operations":"Newscaster",
-      "tools":"",
-      "targets":"private sector in the U.S., Israel, UK and beyond",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":32,
-      "longitude":52,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"???",
-      "operations":"Madi",
-      "tools":"",
-      "targets":"Iran, Israel, USA, Pakistán",
-      "modulus_operandi":"Social engineering"
-   },
-   {  
-      "latitude":32,
-      "longitude":56,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"CopyKitten",
-      "operations":"",
-      "tools":"Matryoshka",
-      "targets":"Israel’s Ministry of Foreign Affairs and some well-known Israeli academic researchers specializing in Middle East Studies.",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":36,
-      "longitude":52,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Parastoo",
-      "operations":"",
-      "tools":"",
-      "targets":"Critical Infrastructure",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":33,
-      "longitude":52,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Cyber fighters of Izz Ad-Din Al Qassam",
-      "operations":"Operation Ababil",
-      "tools":"",
-      "targets":"American financial institutions",
-      "modulus_operandi":"DoS"
-   },
-   {  
-      "latitude":32,
-      "longitude":51,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Chafer",
-      "operations":"",
-      "tools":"Remexi, PsExec, Mimikatz, Web Shells (aspx spy, b374k), nbtscan, plink",
-      "targets":"Middle East",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":36,
-      "longitude":56,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Cadelle",
-      "operations":"",
-      "tools":"Cadelspy",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":31,
-      "longitude":53,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"NEWSCASTER",
-      "operations":"",
-      "tools":"",
-      "targets":" targets senior U.S. military and diplomatic personnel, congressional personnel, Washington D.C. area journalists, U.S. think tanks, defense contractors in the U.S. and Israe",
-      "modulus_operandi":"Fake Social Media Account "
-   },
-   {  
-      "latitude":35,
-      "longitude":52,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Infy",
-      "operations":"",
-      "tools":"",
-      "targets":"focus on dissidents, woman rights activists, human rights organizations ",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":31,
-      "longitude":53,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Sima",
-      "operations":"",
-      "tools":"",
-      "targets":"focus on dissidents, woman rights activists, human rights organizations ",
-      "modulus_operandi":""
-   },
+// Arcs coordinates can be specified explicitly with latitude/longtitude,
+// or just the geographic center of the state/country.
+arcs.arc([
+  {
+    origin: 'CA',
+    destination: 'TX'
+  },
+  {
+    origin: 'OR',
+    destination: 'TX'
+  },
+  {
+    origin: 'NY',
+    destination: 'TX'
+  },
+  {
+      origin: {
+          latitude: 40.639722,
+          longitude: -73.778889
+      },
+      destination: {
+          latitude: 37.618889,
+          longitude: -122.375
+      }
+  },
+  {
+      origin: {
+          latitude: 30.194444,
+          longitude: -97.67
+      },
+      destination: {
+          latitude: 25.793333,
+          longitude: -80.290556
+      },
+      options: {
+        strokeWidth: 2,
+        strokeColor: 'rgba(100, 10, 200, 0.4)',
+        greatArc: true
+      }
+  },
+  {
+      origin: {
+          latitude: 39.861667,
+          longitude: -104.673056
+      },
+      destination: {
+          latitude: 35.877778,
+          longitude: -78.7875
+      }
+  }
+],  {strokeWidth: 1, arcSharpness: 1.4});
+          </script>
+        </article>
+        <article id="orthographic">
+          <h3>Projections &amp; Graticules:</h3>
+          <div class="well well-small options"><span>Options:</span> Orthographic projection, <code>graticule</code> plugin, custom <code>projectionConfig</code> for centering, <code>greatArc</code> for arcs</div>
+          <div class="map" style='height:600px;' id="projection_map"></div>
+          <script data-info="Map source for zoom example">
+      var map = new Datamap({
+        scope: 'world',
+        element: document.getElementById('projection_map'),
+        projection: 'orthographic',
+        fills: {
+          defaultFill: "#ABDDA4",
+          gt50: colors(Math.random() * 20),
+          eq50: colors(Math.random() * 20),
+          lt25: colors(Math.random() * 10),
+          gt75: colors(Math.random() * 200),
+          lt50: colors(Math.random() * 20),
+          eq0: colors(Math.random() * 1),
+          pink: '#0fa0fa',
+          gt500: colors(Math.random() * 1)
+        },
+        projectionConfig: {
+          rotation: [97,-30]
+        },
+        data: {
+          'USA': {fillKey: 'lt50' },
+          'MEX': {fillKey: 'lt25' },
+          'CAN': {fillKey: 'gt50' },
+          'GTM': {fillKey: 'gt500'},
+          'HND': {fillKey: 'eq50' },
+          'BLZ': {fillKey: 'pink' },
+          'GRL': {fillKey: 'eq0' },
+          'CAN': {fillKey: 'gt50' }
+        }
+      });
 
-   {  
-      "latitude":40.0,
-      "longitude":126.0,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Silent Chollima",
-      "operations":"",
-      "tools":"Tdrop, Concealment Troy, LSG",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":39.1,
-      "longitude":123.8,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Dark Seoul",
-      "operations":"Operation Troy, Operation-Blockbuster",
-      "tools":"Tdrop, Tdrop2, Troy",
-      "targets":"government, military, financial, media and entertainment ( South Korea and the United States) and critical infrastructure",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":37.2,
-      "longitude":124.4,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Kimsuki",
-      "operations":"",
-      "tools":"",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":41.3,
-      "longitude":126.98,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"OnionDog",
-      "operations":"",
-      "tools":"",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":40.78,
-      "longitude":128.33,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"TEMP.Hermit",
-      "operations":"",
-      "tools":"",
-      "targets":"",
-      "modulus_operandi":""
-   },
-   {  
-      "latitude":32.08,
-      "longitude":34.70,
-      "radius":8,
-      fillKey: 'blu',
-      "name":"Unit 8200",
-      "operations":"Stuxnet",
-      "tools": "Stuxnet",
-      "targets":"Iranian Nuclear Facilities, Iran-US Nuclear Negotiations",
-      "modulus_operandi": "Stuxnet is typically introduced to the target environment via an infected USB flash drive."
-   },
-   {  
-      "latitude":39.11,
-      "longitude":-76.72,
-      "radius":10,
-      fillKey: 'blu',
-      "name":"Equation Group",
-      "operations":"Stuxnet, Operation Socialist, Project Sauron \/ Strider",
-      "tools": "Regin, Flame, Stuxnet, EquationLaser, EquationDrug, DoubleFantasy, TripleFantasy, Fanny, Grayfish, RemSec",
-      "targets":"Iranian Nuclear Facilities, Iran-US Nuclear Negotiations",
-      "modulus_operandi": "Intelligence gathering, exploits, malware"
-   },
-   {  
-      "latitude":48.85,
-      "longitude":2.35,
-      "radius":10,
-      fillKey: 'blu',
-      "name":"Snowglobe \/ Animal Farm",
-      "operations":"",
-      "tools": "Babar, Bunny, Dino, Casper, Tafacalou, NBot",
-      "targets":"", 
-      "modulus_operandi": "Intelligence gathering, exploits, malware"
-   },
-   {  
-      "latitude":31.99,
-      "longitude":35.50,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Molerats",
-      "operations":"Molerats, DustySky",
-      "tools": "Poison Ivy, DustySky, NeD Worm",
-      "targets":"Israel, Palestine, Egypt, Saudi Arabia, United Arab Emirates, Turkey, USA. Targeted sectors include governmental and diplomatic institutions, including embassies, companies from the aerospace and defence Industries, financial institutions, journalists, software developers.",
-      "modulus_operandi": "targeted emails with malware. fake website with malicipretending to be a legitimate iOS management software, and linking to it in an online freelancing marketplace."
-   },
- {  
-     "latitude":35.51,
-      "longitude":38.35,
-      "radius":8,
-      fillKey: 'blu',
-      "name":"Syrian Electronic Army \/DeadEye Jackal",
-      "operations":"",
-      "tools": "SeANux: Sea Shell (Basic Web Shell), Executer Webshell",
-      "targets":"USA, Canada, UK, Turkey, Lebanon and Israel. Nation-state\/political-group interests",
-      "modulus_operandi": "The modus operandi for this attacker group initially targets publicly facing web servers, with both automatic and manual vulnerability discovery. Once in control of a server, the attackers further penetrate the targeted internal network via various means, including manual online hacking as well as an automated USB infection mechanism."
-   },
- {  
-      "latitude":34.0,
-      "longitude":36.35,
-      "radius":5,
-      fillKey: 'blu',
-      "name":"Volatile Cedar",
-      "operations":"",
-      "tools": "Explosive",
-      "targets":"USA, Canada, UK, Turkey, Lebanon and Israel. Nation-state/political-group interests",
-      "modulus_operandi": "The modus operandi for this attacker group initially targets publicly facing web servers, with both automatic and manual vulnerability discovery. Once in control of a server, the attackers further penetrate the targeted internal network via various means, including manual online hacking as well as an automated USB infection mechanism."
-   },
+      map.graticule();
 
-     ], {
-       popupTemplate: function(geo, data) {
-         return "<div class='hoverinfo'> <p> <b>APT:</b> "+ data.name +"</p> <p> <b>Operations:</b> "+ data.operations +"</p> <p> <b>Tools:</b> "+ data.tools +" </p> <p> <b>Targets:</b> "+ data.targets +" </p> <p> <b>Modulus Operandi:</b> "+ data.modulus_operandi +"</p></div>";
-       }
-     });
-     </script>
-<p>Data was obtained from public document created by Cyb3rops, data was ommited to simplify the presentation of the data map</p>
-<a href="https://docs.google.com/spreadsheets/d/1H9_xaxQHpWaa4O_Son4Gx0YOIzlcBWMsdvePFX68EKU/pubhtml#"> Click here to access the data source</a>
-</body>
+      map.arc([{
+        origin: {
+          latitude: 61,
+          longitude: -149
+        },
+        destination: {
+          latitude: -22,
+          longitude: -43
+        }
+      }], {
+        greatArc: true,
+        animationSpeed: 2000
+      });
+          </script>
+        </article>
+        <article id="zoom">
+          <h3>Zoom:</h3>
+          <div class="well well-small options"><span>Options:</span> Custom <code>setProjection()</code> for zooming, with bubbles</div>
+          <div class="map tall" id="zoom_map"></div>
+          <script data-info="Map source for zoom example">
+var zoom = new Datamap({
+  element: document.getElementById("zoom_map"),
+  scope: 'world',
+  // Zoom in on Africa
+  setProjection: function(element) {
+    var projection = d3.geo.equirectangular()
+      .center([23, -3])
+      .rotate([4.4, 0])
+      .scale(400)
+      .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
+    var path = d3.geo.path()
+      .projection(projection);
+
+    return {path: path, projection: projection};
+  },
+  fills: {
+    defaultFill: "#ABDDA4",
+    gt50: colors(Math.random() * 20),
+    eq50: colors(Math.random() * 20),
+    lt25: colors(Math.random() * 10),
+    gt75: colors(Math.random() * 200),
+    lt50: colors(Math.random() * 20),
+    eq0: colors(Math.random() * 1),
+    pink: '#0fa0fa',
+    gt500: colors(Math.random() * 1)
+  },
+  data: {
+    'ZAF': { fillKey: 'gt50' },
+    'ZWE': { fillKey: 'lt25' },
+    'NGA': { fillKey: 'lt50' },
+    'MOZ': { fillKey: 'eq50' },
+    'MDG': { fillKey: 'eq50' },
+    'EGY': { fillKey: 'gt75' },
+    'TZA': { fillKey: 'gt75' },
+    'LBY': { fillKey: 'eq0' },
+    'DZA': { fillKey: 'gt500' },
+    'SSD': { fillKey: 'pink' },
+    'SOM': { fillKey: 'gt50' },
+    'GIB': { fillKey: 'eq50' },
+    'AGO': { fillKey: 'lt50' }
+  }
+});
+zoom.bubbles([
+ {name: 'Bubble 1', latitude: 21.32, longitude: -7.32, radius: 45, fillKey: 'gt500'},
+ {name: 'Bubble 2', latitude: 12.32, longitude: 27.32, radius: 25, fillKey: 'eq0'},
+ {name: 'Bubble 3', latitude: 0.32, longitude: 23.32, radius: 35, fillKey: 'lt25'},
+ {name: 'Bubble 4', latitude: -31.32, longitude: 23.32, radius: 55, fillKey: 'eq50'},
+], {
+ popupTemplate: function(geo, data) {
+   return "<div class='hoverinfo'>Bubble for " + data.name + "</div>";
+ }
+});
+          </script>
+        </article>
+      </section>
+      <section class="docs">
+        <h3>Configuration options and default settings:</h3>
+        <div class="row">
+        <pre class="offset1 span10"><code class="javascript">
+var defaultOptions = {
+    scope: 'world', //currently supports 'usa' and 'world', however with custom map data you can specify your own
+    setProjection: setProjection, //returns a d3 path and projection functions
+    projection: 'equirectangular', //style of projection to be used. try "mercator"
+    height: null, //if not null, datamaps will grab the height of 'element'
+    width: null, //if not null, datamaps will grab the width of 'element'
+    responsive: false, //if true, call `resize()` on the map object when it should adjust it's size
+    done: function() {}, //callback when the map is done drawing
+    fills: {
+      defaultFill: '#ABDDA4' //the keys in this object map to the "fillKey" of [data] or [bubbles]
+    },
+    dataType: 'json', //for use with dataUrl, currently 'json' or 'csv'. CSV should have an `id` column
+    dataUrl: null, //if not null, datamaps will attempt to fetch this based on dataType ( default: json )
+    geographyConfig: {
+        dataUrl: null, //if not null, datamaps will fetch the map JSON (currently only supports topojson)
+        hideAntarctica: true,
+        borderWidth: 1,
+        borderOpacity: 1,
+        borderColor: '#FDFDFD',
+        popupTemplate: function(geography, data) { //this function should just return a string
+          return '&lt;div class="hoverinfo"&gt;&lt;strong&gt;' + geography.properties.name + '&lt;/strong&gt;&lt;/div&gt;';
+        },
+        popupOnHover: true, //disable the popup while hovering
+        highlightOnHover: true,
+        highlightFillColor: '#FC8D59',
+        highlightBorderColor: 'rgba(250, 15, 160, 0.2)',
+        highlightBorderWidth: 2,
+        highlightBorderOpacity: 1
+    },
+    bubblesConfig: {
+        borderWidth: 2,
+        borderOpacity: 1,
+        borderColor: '#FFFFFF',
+        popupOnHover: true,
+        radius: null,
+        popupTemplate: function(geography, data) {
+          return '&lt;div class="hoverinfo"&gt;&lt;strong&gt;' + data.name + '&lt;/strong&gt;&lt;/div&gt;';
+        },
+        fillOpacity: 0.75,
+        animate: true,
+        highlightOnHover: true,
+        highlightFillColor: '#FC8D59',
+        highlightBorderColor: 'rgba(250, 15, 160, 0.2)',
+        highlightBorderWidth: 2,
+        highlightBorderOpacity: 1,
+        highlightFillOpacity: 0.85,
+        exitDelay: 100,
+        key: JSON.stringify
+    },
+    arcConfig: {
+      strokeColor: '#DD1C77',
+      strokeWidth: 1,
+      arcSharpness: 1,
+      animationSpeed: 600
+    }
+  };
+</code>
+</pre>
+</div>
+      </section>
+
+    </div>
+    <div id="footer">
+      <div class="container">
+          A project by <a target="_blank" href="https://github.com/markmarkoh">Mark DiMarco</a>. Released under the <a target="_blank" href="https://github.com/markmarkoh/datamaps/blob/master/LICENSE">MIT License</a>.
+          Special thanks to <a target="_blank" href="http://d3js.org">d3.js</a>, <a target="_blank" href="http://keepaustinbazaar.com/">Bazaarvoice</a>, &amp; my employer <a target="_blank" href="http://data.world">Data.World</a>.
+      </div>
+    </div>
+    <a href="https://github.com/markmarkoh/datamaps"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a>
+
+<link rel="stylesheet" href="http://yandex.st/highlightjs/7.5/styles/github.min.css">
+<script src="http://yandex.st/highlightjs/7.5/highlight.min.js"></script>
+<script>
+  var sections = document.getElementsByClassName('map');
+  var eventName = 'click';
+
+  [].forEach.call(sections, function(section) {
+    var parent = section.parentNode;
+    parent.getElementsByClassName('options')[0].innerHTML += '<pre><code>' + parent.getElementsByTagName('script')[0].innerHTML.replace('<', '&lt;').replace('>', '&gt;') + '</code></pre>';
+
+    parent.getElementsByClassName('options')[0].addEventListener(eventName, function(evt) {
+      if ( evt.currentTarget.classList.contains('open') ) {
+        evt.currentTarget.classList.remove('open');
+      }
+      else {
+        evt.currentTarget.classList.add('open');
+      }
+    }, false);
+
+    parent.getElementsByTagName('pre')[0].addEventListener(eventName, function(evt) {
+      evt.stopPropagation();
+    }, false);
+
+  });
+
+</script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36315921-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+    </body>
 </html>
