@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<body>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://d3js.org/topojson.v1.min.js"></script>
+  <!-- I recommend you host this file on your own, since this will change without warning -->
+  <script src="http://datamaps.github.io/scripts/datamaps.world.min.js"></script>
+  <h1>Known APT Groups and Operations Map</h1>
+  <h3>Just for fun and the lulz...</h3>
+ 
+  <div id="container1"style="position: absolute; width: 90%; max-height: 500px; overflow: hidden;" ></div>
+ 
+     
+     <script>
+       //basic map config with custom fills, mercator projection
+      var map = new Datamap({
+        scope: 'world',
+        element: document.getElementById('container1'),
+	responsive: true,
+        projection: 'mercator',
+ 
+geographyConfig: {
+    popupOnHover: false,
+    highlightOnHover: false
+  },
+
+  fills: {
+    defaultFill: "#ABDDA4",
+    redz: "#f4494c",
+    blu: "#0e93b5"
+  },
+  data: {
+    PRK: { fillKey: "redz" },
+    USA: { fillKey: "redz" },
+    LBN: { fillKey: "redz" },
+    RUS: { fillKey: "redz" },
+    CHN: { fillKey: "redz" },
+    IRN: { fillKey: "redz" },
+    ISR: { fillKey: "redz" },
+    SYR: { fillKey: "redz" },
+    PSE: { fillKey: "redz" },
+    FRA: { fillKey: "redz" },
+
+  }
+});   
+	// Pure JavaScript
+    	window.addEventListener('resize', function() {
+        map.resize();
+   	});
+      
+       //bubbles, custom popup on hover template
+     map.bubbles([
+
+   {  
+      "latitude":34.4,
+      "longitude":104.19,
+      "radius":5,
+      fillkey:'blu',
+      "name":"Comment Crew",
+      "operations":"Shady RAT",
+      "tools":"WEBC2, BISCUIT and many others",
+      "targets":"Mainly EN speaking countries",
+      "modulus_operandi":" IT/Software companies"
+   },
+   {  
+      "latitude":31,
+      "longitude":86,
+      "radius":5,
+      "fillKey": "blue",
+      "name":"APT 2",
+      "operations":"",
+      "tools":"MSUpdater",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":30,
+      "longitude":114,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"UPS",
+      "operations":"Clandestine Fox , Double Tap, Clandestine Wolf",
+      "tools":"Pirpi, PlugX, Kaba, Cookie Cutter, many 0days: IE, Firefox, and Flash, SportLoader",
+      "targets":"Aerospace and Defence",
+      "modulus_operandi":" Construction and Engineering"
+   },
+   {  
+      "latitude":30,
+      "longitude":103,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"IXESHE",
+      "operations":"NYT Oct 2012",
+      "tools":"Etumbot, Riptide, Hightide, ThreeByte, Waterspout, Mswab, Gh0st, ShowNews, 3001",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":38,
+      "longitude":91,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"APT 16",
+      "operations":"",
+      "tools":"ELMER backdoor",
+      "targets":"Taiwanese Media and Entertainment",
+      "modulus_operandi":"Spear phishing email delivering a malicious Microsoft Word document exploiting EPS dict copy use-after-free vulnerability, and the local Windows privilege escalation vulnerability CVE-2015-1701. The successful exploitation of both vulnerabilities led to the delivery of either a downloader (IRONHALO), or a backdoor (ELMER)."
+   },
+   {  
+      "latitude":39,
+      "longitude":93,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Hidden Lynx",
+      "operations":"Operation Ephemeral Hydra",
+      "tools":"BLACKCOFFEE, WEBCnC, Joy RAT, PlugX, Trojan.Naid, Backdoor.Moudoor, Backdoor.Vasport, Backdoor.Boda, Trojan.Hydraq, ZxShell, Sakula, China Chopper",
+      "targets":"Government, defense & aerospace, industrial engineering, NGOs",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":33,
+      "longitude":104,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Wekby",
+      "operations":"",
+      "tools":"HTTPBrowser, TokenControl, HcdLoader, PisLoader",
+      "targets":"Aerospace and Defence",
+      "modulus_operandi":" Construction and Engineering"
+   },
+   {  
+      "latitude":31,
+      "longitude":85,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Axiom",
+      "operations":"Operation SMN",
+      "tools":"Winnti, Gh0st RAT, PoisonIvy, HydraQ, Hikit, ZxShell, Deputy Dog, Derusbi, PlugX, HTRAN, HDRoot",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":33,
+      "longitude":85,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Shell Crew",
+      "operations":"Anthem, OPM",
+      "tools":"Sakula/Sakurel, Derusbi, Scanbox Framework, many Webshells including China Chopper, WCE",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":32,
+      "longitude":91,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Naikon",
+      "operations":"MsnMM, Naikon, Camera Shy",
+      "tools":"RARSTONE, BACKSPACe, NETEAGLE, XSControl",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":32,
+      "longitude":88,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Lotus Blossom",
+      "operations":"Operation Lotus Blossom",
+      "tools":"Elise Backdoor, Lstudio",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":40,
+      "longitude":112,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"APT 6",
+      "operations":"",
+      "tools":"Poison Ivy, ",
+      "targets":"US Government Organizations",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":32,
+      "longitude":99,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Hurricane Panda",
+      "operations":"Umbrella Revolution, Op. Poisoned Hurricane",
+      "tools":"China Chopper Webshell, PlugX, Mimikatz",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":35,
+      "longitude":99,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Emissary Panda",
+      "operations":"Operaton Iron Tiger, A Tale of Two Targets",
+      "tools":"",
+      "targets":"PlugX, China Chopper Webshell, HttpBrowser, Hunter, ASPXTool, wce, gsecdump, nbtscan, Trochilus RAT",
+      "modulus_operandi":"US Gov and contractors"
+   },
+   {  
+      "latitude":30,
+      "longitude":90,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Stone Panda",
+      "operations":"",
+      "tools":"Poison Ivy, EvilGrab, IEChecker",
+      "targets":"Healthcare, Defense, Aerospace, Government",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":36,
+      "longitude":112,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Nightshade Panda",
+      "operations":"",
+      "tools":"Poison Ivy, PlugX",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":38,
+      "longitude":88,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Nokian",
+      "operations":"",
+      "tools":"",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":29,
+      "longitude":109,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"APT 26",
+      "operations":"",
+      "tools":"",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":33,
+      "longitude":100,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Hellsing",
+      "operations":"",
+      "tools":"",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":31,
+      "longitude":92,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Goblin Panda",
+      "operations":"",
+      "tools":"ZeGhost, PlugX",
+      "targets":"Southeast Asia, Government of Vietnam",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":36,
+      "longitude":92,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Night Dragon",
+      "operations":"Operation Night Dragon",
+      "tools":"",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":30,
+      "longitude":111,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Mirage",
+      "operations":"Umbrella Revolution",
+      "tools":"Mirage, (Nvidia program side-loading) PlugX, XSLCmd, TidePool",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":39,
+      "longitude":108,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Anchor Panda",
+      "operations":"",
+      "tools":"Adobe Gh0st, Poison Ivy, Torn RAT",
+      "targets":"maritime satellite systems, aerospace companies, and defense contractors",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":36,
+      "longitude":97,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"NetTraveler",
+      "operations":"",
+      "tools":"NetTraveler",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":34,
+      "longitude":97,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Ice Fog",
+      "operations":"",
+      "tools":"",
+      "targets":"military, shipbuilding and maritime operations, research companies, telecomoperators, satellite operators, mass media and television",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":33,
+      "longitude":112,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Beijing Group",
+      "operations":"Operation Aurora",
+      "tools":"Hydraq, Elderwood Project",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":33,
+      "longitude":94,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"APT 22",
+      "operations":"",
+      "tools":"China Chopper",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":40,
+      "longitude":100,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Suckfly",
+      "operations":"",
+      "tools":"Nidiran, Korplug, PlugX",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":35,
+      "longitude":96,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"?",
+      "operations":"Four Element Sword",
+      "tools":"UP007, SLServer, Grabber, T9000, Kivars, PlugX, Gh0StRAT, Agent.XST",
+      "targets":"Tibetans, Hong Kong, Taiwanese interests and human rights workers, Uyghur Interests",
+      "modulus_operandi":"Active"
+   },
+   {  
+      "latitude":38,
+      "longitude":105,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"?",
+      "operations":"INOCNATION",
+      "tools":"",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":40,
+      "longitude":92,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Pirate Panda",
+      "operations":"",
+      "tools":"",
+      "targets":"",
+      "modulus_operandi":"Southeast Asia"
+   },
+   {  
+      "latitude":35,
+      "longitude":101,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Radio Panda",
+      "operations":"",
+      "tools":"",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":32,
+      "longitude":98,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"APT 4",
+      "operations":"",
+      "tools":"",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":37,
+      "longitude":112,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Impersonating Panda",
+      "operations":"",
+      "tools":"",
+      "targets":"Financial sector",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":37,
+      "longitude":98,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Violin Panda",
+      "operations":"Nitro Attacks",
+      "tools":"Poison Ivy",
+      "targets":"Energy, Chemical Industry",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":34,
+      "longitude":99,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Toxic Panda",
+      "operations":"",
+      "tools":"",
+      "targets":"Dissident Groups",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":39,
+      "longitude":89,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Temper Panda",
+      "operations":"Umbrella Revolution",
+      "tools":"Poison Ivy, jRat, LOWBALL, BUBBLEWRAP",
+      "targets":"Target Gov + Military, DIB, Finiancial/Think Tanks",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":37,
+      "longitude":88,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Keyhole Panda",
+      "operations":"",
+      "tools":"",
+      "targets":"Electronics & Communications",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":31,
+      "longitude":86,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Test Panda",
+      "operations":"",
+      "tools":"",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":39,
+      "longitude":95,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Pitty Tiger",
+      "operations":"",
+      "tools":"PittyTiger, Paladin RAT",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":31,
+      "longitude":115,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Gibberish Panda",
+      "operations":"",
+      "tools":"",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":39,
+      "longitude":103,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Foxy Panda",
+      "operations":"",
+      "tools":"",
+      "targets":"Technology & Communications",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":36,
+      "longitude":109,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Wet Panda",
+      "operations":"",
+      "tools":"PlugX",
+      "targets":"Energy ",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":39,
+      "longitude":86,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Union Panda",
+      "operations":"",
+      "tools":"",
+      "targets":"Industrial companies",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":34,
+      "longitude":112,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Karma Panda",
+      "operations":"",
+      "tools":"",
+      "targets":"Dissident groups",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":28,
+      "longitude":99,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Poisonous Panda",
+      "operations":"",
+      "tools":"",
+      "targets":"Energy technology, G20, NGOs, Dissident Groups",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":33,
+      "longitude":107,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Predator Panda",
+      "operations":"",
+      "tools":"PlugX",
+      "targets":"Southeast Asia",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":38,
+      "longitude":105,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"?",
+      "operations":"Poisoned Helmand",
+      "tools":"",
+      "targets":"Afghan Government",
+      "modulus_operandi":"Watering Hole"
+   },
+   {  
+      "latitude":39,
+      "longitude":110,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"?",
+      "operations":"Titan Rain",
+      "tools":"",
+      "targets":"USA",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":40,
+      "longitude":104,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"?",
+      "operations":"Sykipot, Getkys, Wyksol",
+      "tools":"",
+      "targets":"DIB (Defence Industrial Base) and other government organizations",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":40,
+      "longitude":100,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Scarlet Mimic",
+      "operations":"",
+      "tools":"FakeM, Psylo, MobileOrder",
+      "targets":"Uyghur and Tibetan activists as well as those who are interested in their causes",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":40,
+      "longitude":105,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"C0d0so",
+      "operations":"Bassos Campaign",
+      "tools":"Bergard Trojan, Derusbi",
+      "targets":"Forbes,  Defense, Finance, Energy, Government, Political Dissidents, Global Think Tanks",
+      "modulus_operandi":"Watering Hole"
+   },
+   {  
+      "latitude":38,
+      "longitude":93,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"SVCMONDR",
+      "operations":"",
+      "tools":"CVE-2015-2545",
+      "targets":"Taiwan, Thailand",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":30,
+      "longitude":104,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Big Panda",
+      "operations":"",
+      "tools":"",
+      "targets":"Financial services firms",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":38,
+      "longitude":85,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Electric Panda",
+      "operations":"",
+      "tools":"",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":32,
+      "longitude":87,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Eloquent Panda",
+      "operations":"",
+      "tools":"",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":29,
+      "longitude":105,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Lotus Panda",
+      "operations":"",
+      "tools":"",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":37,
+      "longitude":92,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Pale Panda",
+      "operations":"",
+      "tools":"PlugX",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":30,
+      "longitude":111,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Sabre Panda",
+      "operations":"",
+      "tools":"",
+      "targets":"Umbrella Revolution",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":31,
+      "longitude":108,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Spicy Panda",
+      "operations":"",
+      "tools":"",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":30,
+      "longitude":96,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Hammer Panda",
+      "operations":"",
+      "tools":"",
+      "targets":"Russia",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":40,
+      "longitude":104,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Wisp Team",
+      "operations":"",
+      "tools":"",
+      "targets":"Defense Industrial Base, US Government",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":31,
+      "longitude":114,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Mana Team",
+      "operations":"",
+      "tools":"",
+      "targets":"Australia",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":32,
+      "longitude":103,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Dust Storm",
+      "operations":"",
+      "tools":"",
+      "targets":"Japan",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":33,
+      "longitude":85,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"TEMP.Zhenbao",
+      "operations":"",
+      "tools":"",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":31,
+      "longitude":106,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"SPIVY",
+      "operations":"",
+      "tools":"",
+      "targets":"Hong Kong dissidents",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":29,
+      "longitude":91,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Mofang",
+      "operations":"",
+      "tools":"ShimRAT, ShimRATReporter",
+      "targets":"Government, military, Critical Infrastructure,Automotive Industry*,Weapon Industry*",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":37,
+      "longitude":95,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"PassCV",
+      "operations":"",
+      "tools":"Sabre, Kitkiot",
+      "targets":"Gaming Companies",
+      "modulus_operandi":""
+   },
+  
+   {  
+      "latitude":60,
+      "longitude":49,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Sofacy",
+      "operations":"Operation Russian Doll, Bundestag, TV5 Monde \"Cyber Caliphate\", EFF Attack, DNC Hack, OpOlympics",
+      "tools":"CHOPSTICK, CORESHELL, Winexe, SOURFACE, OLDBAIT, Sofacy, XAgent, XTunnel, WinIDS, Foozer, DownRange, Sedreco Dropper, Komplex, DealersChoice, Downdelph, Sednit, USBStealer, Sedkit, HideDrv (Rootkit)",
+      "targets":"United States government",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":55,
+      "longitude":44,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"APT 29",
+      "operations":"",
+      "tools":"Hammertoss, OnionDuke, CosmicDuke, MinDuke, CozyDuke, SeaDuke, SeaDaddy implant developed in Python and compiled with py2exe, AdobeARM, ATI-Agent, MiniDionis",
+      "targets":"US businesses",
+      "modulus_operandi":"phishing emails"
+   },
+   {  
+      "latitude":56,
+      "longitude":46,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Turla Group ",
+      "operations":"Satellite Turla, Epic Turla, The 'Penquin' Turla, Operation Witchcoven",
+      "tools":"Uroburos, Turla, Agent.BTZ, Tavdig, Wipbot, Agent.dne, AdobeARM, ATI-Agent, MiniDionis",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":55,
+      "longitude":44,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Energetic Bear",
+      "operations":"",
+      "tools":"Havex RAT, Oldrea, LightsOut ExploitKit",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":54,
+      "longitude":49,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Sandworm",
+      "operations":"Black Energy",
+      "tools":"CVE-2014-4114",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":59,
+      "longitude":38,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Anunak",
+      "operations":"Odinaff",
+      "tools":"Mimikatz, MBR Eraser, SoftPerfect Network Scanner, SSHd with BackDoor, Ammy Admin, CVE-2012-2539 and CVE-2012-0158, Netscan, PsExec, Backdoor Batel",
+      "targets":"Banks of Russia and payment system",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":57,
+      "longitude":37,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"???",
+      "operations":"Red October, Cloud Atlas",
+      "tools":"",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":60,
+      "longitude":43,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"TeamSpy Crew",
+      "operations":"TeamSpy",
+      "tools":"",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":56,
+      "longitude":38,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"BuhTrap",
+      "operations":"",
+      "tools":"AmmyAdmin, LURK, NSIS, Mimikatz, CVE-2012-0158, PuntoSwitcher (like Keylogger)",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":57,
+      "longitude":40,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Carberb",
+      "operations":"Moonlight Maze",
+      "tools":"",
+      "targets":"USA",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":53,
+      "longitude":50,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Anger Bear",
+      "operations":"",
+      "tools":"",
+      "targets":"Middle East oil and natural gas as the goal, dedicated to gather relevant information",
+      "modulus_operandi":"Active"
+   },
+   {  
+      "latitude":57,
+      "longitude":43,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"???",
+      "operations":"RUAG Espionage",
+      "tools":"Turla Family, Uroburos, Snake (Carbon) Rootkit, Tavdig/Wipbot/Epic, Mimikatz, dsquery, dsget",
+      "targets":"Swiss defence department",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":58,
+      "longitude":48,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"FSB 16th & 18th Centers",
+      "operations":"OP Armageddon",
+      "tools":"",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":54,
+      "longitude":36,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"ScarCruft",
+      "operations":"Operation Daybreak, Operation Erebus",
+      "tools":"Flash Exploit CVE-2016-4117",
+      "targets":"Russia, Nepal, South Korea, China, India, Kuwait and Romania",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":54,
+      "longitude":51,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Cyber Berkut",
+      "operations":"",
+      "tools":"",
+      "targets":"Bellingcat",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":55,
+      "longitude":43,
+      "radius":null,
+      "fillkey":"",
+      "name":"",
+      "operations":"",
+      "tools":"",
+      "targets":"",
+      "modulus_operandi":""
+   },
+ 
+   {  
+      "latitude":31,
+      "longitude":53,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Flying Kitten",
+      "operations":"Aramco Shamoon",
+      "tools":"",
+      "targets":"Iranian dissidents, activists, Saudi Aramco",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":33,
+      "longitude":56,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Charming Kitten",
+      "operations":"",
+      "tools":"",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":33,
+      "longitude":54,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Magic Kitten",
+      "operations":"",
+      "tools":"",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":35,
+      "longitude":51,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Rocket Kitten",
+      "operations":"Operation Woolen Goldfish, Thamar Reservoir ",
+      "tools":"GHOLE / Core Impact",
+      "targets":" CWoolger",
+      "modulus_operandi":" FireMalv"
+   },
+   {  
+      "latitude":35,
+      "longitude":56,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Threat Group 2889",
+      "operations":"Operation Cleaver",
+      "tools":"TinyZBot",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":33,
+      "longitude":54,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Clever Kitten",
+      "operations":"",
+      "tools":"Acunetix Web Vulnerability Scanner, PHP Webshell RC SHELL",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":33,
+      "longitude":54,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Fraternal Jackal",
+      "operations":"",
+      "tools":"",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":33,
+      "longitude":55,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"???",
+      "operations":"Newscaster",
+      "tools":"",
+      "targets":"private sector in the U.S., Israel, UK and beyond",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":32,
+      "longitude":52,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"???",
+      "operations":"Madi",
+      "tools":"",
+      "targets":"Iran, Israel, USA, Pakistán",
+      "modulus_operandi":"Social engineering"
+   },
+   {  
+      "latitude":32,
+      "longitude":56,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"CopyKitten",
+      "operations":"",
+      "tools":"Matryoshka",
+      "targets":"Israel’s Ministry of Foreign Affairs and some well-known Israeli academic researchers specializing in Middle East Studies.",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":36,
+      "longitude":52,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Parastoo",
+      "operations":"",
+      "tools":"",
+      "targets":"Critical Infrastructure",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":33,
+      "longitude":52,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Cyber fighters of Izz Ad-Din Al Qassam",
+      "operations":"Operation Ababil",
+      "tools":"",
+      "targets":"American financial institutions",
+      "modulus_operandi":"DoS"
+   },
+   {  
+      "latitude":32,
+      "longitude":51,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Chafer",
+      "operations":"",
+      "tools":"Remexi, PsExec, Mimikatz, Web Shells (aspx spy, b374k), nbtscan, plink",
+      "targets":"Middle East",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":36,
+      "longitude":56,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Cadelle",
+      "operations":"",
+      "tools":"Cadelspy",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":31,
+      "longitude":53,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"NEWSCASTER",
+      "operations":"",
+      "tools":"",
+      "targets":" targets senior U.S. military and diplomatic personnel, congressional personnel, Washington D.C. area journalists, U.S. think tanks, defense contractors in the U.S. and Israe",
+      "modulus_operandi":"Fake Social Media Account "
+   },
+   {  
+      "latitude":35,
+      "longitude":52,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Infy",
+      "operations":"",
+      "tools":"",
+      "targets":"focus on dissidents, woman rights activists, human rights organizations ",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":31,
+      "longitude":53,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Sima",
+      "operations":"",
+      "tools":"",
+      "targets":"focus on dissidents, woman rights activists, human rights organizations ",
+      "modulus_operandi":""
+   },
+
+   {  
+      "latitude":40.0,
+      "longitude":126.0,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Silent Chollima",
+      "operations":"",
+      "tools":"Tdrop, Concealment Troy, LSG",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":39.1,
+      "longitude":123.8,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Dark Seoul",
+      "operations":"Operation Troy, Operation-Blockbuster",
+      "tools":"Tdrop, Tdrop2, Troy",
+      "targets":"government, military, financial, media and entertainment ( South Korea and the United States) and critical infrastructure",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":37.2,
+      "longitude":124.4,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Kimsuki",
+      "operations":"",
+      "tools":"",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":41.3,
+      "longitude":126.98,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"OnionDog",
+      "operations":"",
+      "tools":"",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":40.78,
+      "longitude":128.33,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"TEMP.Hermit",
+      "operations":"",
+      "tools":"",
+      "targets":"",
+      "modulus_operandi":""
+   },
+   {  
+      "latitude":32.08,
+      "longitude":34.70,
+      "radius":8,
+      fillKey: 'blu',
+      "name":"Unit 8200",
+      "operations":"Stuxnet",
+      "tools": "Stuxnet",
+      "targets":"Iranian Nuclear Facilities, Iran-US Nuclear Negotiations",
+      "modulus_operandi": "Stuxnet is typically introduced to the target environment via an infected USB flash drive."
+   },
+   {  
+      "latitude":39.11,
+      "longitude":-76.72,
+      "radius":10,
+      fillKey: 'blu',
+      "name":"Equation Group",
+      "operations":"Stuxnet, Operation Socialist, Project Sauron \/ Strider",
+      "tools": "Regin, Flame, Stuxnet, EquationLaser, EquationDrug, DoubleFantasy, TripleFantasy, Fanny, Grayfish, RemSec",
+      "targets":"Iranian Nuclear Facilities, Iran-US Nuclear Negotiations",
+      "modulus_operandi": "Intelligence gathering, exploits, malware"
+   },
+   {  
+      "latitude":48.85,
+      "longitude":2.35,
+      "radius":10,
+      fillKey: 'blu',
+      "name":"Snowglobe \/ Animal Farm",
+      "operations":"",
+      "tools": "Babar, Bunny, Dino, Casper, Tafacalou, NBot",
+      "targets":"", 
+      "modulus_operandi": "Intelligence gathering, exploits, malware"
+   },
+   {  
+      "latitude":31.99,
+      "longitude":35.50,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Molerats",
+      "operations":"Molerats, DustySky",
+      "tools": "Poison Ivy, DustySky, NeD Worm",
+      "targets":"Israel, Palestine, Egypt, Saudi Arabia, United Arab Emirates, Turkey, USA. Targeted sectors include governmental and diplomatic institutions, including embassies, companies from the aerospace and defence Industries, financial institutions, journalists, software developers.",
+      "modulus_operandi": "targeted emails with malware. fake website with malicipretending to be a legitimate iOS management software, and linking to it in an online freelancing marketplace."
+   },
+ {  
+     "latitude":35.51,
+      "longitude":38.35,
+      "radius":8,
+      fillKey: 'blu',
+      "name":"Syrian Electronic Army \/DeadEye Jackal",
+      "operations":"",
+      "tools": "SeANux: Sea Shell (Basic Web Shell), Executer Webshell",
+      "targets":"USA, Canada, UK, Turkey, Lebanon and Israel. Nation-state\/political-group interests",
+      "modulus_operandi": "The modus operandi for this attacker group initially targets publicly facing web servers, with both automatic and manual vulnerability discovery. Once in control of a server, the attackers further penetrate the targeted internal network via various means, including manual online hacking as well as an automated USB infection mechanism."
+   },
+ {  
+      "latitude":34.0,
+      "longitude":36.35,
+      "radius":5,
+      fillKey: 'blu',
+      "name":"Volatile Cedar",
+      "operations":"",
+      "tools": "Explosive",
+      "targets":"USA, Canada, UK, Turkey, Lebanon and Israel. Nation-state/political-group interests",
+      "modulus_operandi": "The modus operandi for this attacker group initially targets publicly facing web servers, with both automatic and manual vulnerability discovery. Once in control of a server, the attackers further penetrate the targeted internal network via various means, including manual online hacking as well as an automated USB infection mechanism."
+   },
+
+     ], {
+       popupTemplate: function(geo, data) {
+         return "<div class='hoverinfo'> <p> <b>APT:</b> "+ data.name +"</p> <p> <b>Operations:</b> "+ data.operations +"</p> <p> <b>Tools:</b> "+ data.tools +" </p> <p> <b>Targets:</b> "+ data.targets +" </p> <p> <b>Modulus Operandi:</b> "+ data.modulus_operandi +"</p></div>";
+       }
+     });
+     </script>
+<p>Data was obtained from public document created by Cyb3rops, data was ommited to simplify the presentation of the data map</p>
+<a href="https://docs.google.com/spreadsheets/d/1H9_xaxQHpWaa4O_Son4Gx0YOIzlcBWMsdvePFX68EKU/pubhtml#"> Click here to access the data source</a>
+</body>
